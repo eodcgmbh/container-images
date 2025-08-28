@@ -1,0 +1,19 @@
+name: base
+channels:
+  - conda-forge
+channel_priority: strict
+dependencies:
+  - python=3.11
+  - numpy
+  - xarray
+  - dask
+  - distributed
+  - dask-gateway
+  - hvplot
+  - rich
+  - pip
+  - pip:
+      - pystac-client
+      - odc-stac
+      - dask-flood-mapper
+      - eodc
