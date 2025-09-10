@@ -7,15 +7,13 @@ import aiohttp
 import jwt
 
 from aiohttp import web
-from traitlets import Dict, Unicode, default, Instance, HasTraits, Int
+from traitlets import Dict, Unicode, default
+from traitlets.config import LoggingConfigurable
 
 from dask_gateway_server.auth import Authenticator, unauthorized, User
 
-class ProfileConfig(HasTraits):
-    worker_cores = Int(0)
-    worker_memory = Int(0)
 
-class JwtAuthenticator(Authenticator):
+class JwtAuthenticator(Authenticator, LoggingConfigurable):
 
     jwks_url = Unicode(
         help="""
