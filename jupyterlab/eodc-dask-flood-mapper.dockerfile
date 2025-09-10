@@ -43,7 +43,7 @@ RUN mamba install -y -n base -c conda-forge \
       jupyter-fs \
       tornado=6.5.2 \
       nbgitpuller \
-  && mamba clean -afy
+  && mamba clean -afy \
   && pip install --no-cache-dir --no-compile \
       rich \
       eodc-connect
