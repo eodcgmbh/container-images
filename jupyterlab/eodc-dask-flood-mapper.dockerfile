@@ -1,6 +1,6 @@
 ARG REGISTRY=quay.io
 ARG OWNER=jupyter
-ARG TAG=python-3.12.10
+ARG TAG=python-3.12.11
 ARG BASE_IMAGE=$REGISTRY/$OWNER/minimal-notebook:$TAG
 FROM $BASE_IMAGE
 
@@ -46,7 +46,7 @@ RUN mamba install -y -n base -c conda-forge \
   && mamba clean -afy \
   && pip install --no-cache-dir --no-compile \
       rich \
-      eodc-connect
+      'eodc-connect==0.0.4'
 
 # Server config and permissions
 COPY jupyterlab/jupyter_server_config.json /etc/jupyter/jupyter_server_config.json
