@@ -42,6 +42,7 @@ RUN mamba install -y -n base -c conda-forge \
       odc-stac \
       jupyter-fs \
       tornado=6.5.2 \
+      lz4=4.4.4 \
       nbgitpuller \
   && mamba clean -afy \
   && pip install --no-cache-dir --no-compile \
