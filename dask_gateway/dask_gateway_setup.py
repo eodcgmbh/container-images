@@ -24,6 +24,17 @@ dask_roles = {
         "worker_cores": 1,
         "worker_memory": 2,
     },
+    "stack-dask-tuw": {
+        "worker_cores": 2,
+        "worker_memory": 2,
+        "worker_cores_limit": 2,
+        "worker_memory_limit": 2,
+        "scheduler_cores": 2,
+        "scheduler_memory": 2,
+        "scheduler_cores_limit": 2,
+        "scheduler_memory_limit": 2,
+        "max_workers": 2,
+    },
 }
 
 
@@ -109,7 +120,7 @@ async def pre_validation(token, jwks_client: jwt.PyJWKClient):
 
 
 async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient):
-    data = await pre_validation(jwks_client, token)
+    data = await pre_validation(token, jwks_client)
 
     if data and ("realm_access" in data) and ("roles" in data["realm_access"]):
         if "preferred_username" not in data:
@@ -137,11 +148,46 @@ async def tuw_validate_token(token, jwks_client: jwt.PyJWKClient):
         if "preferred_username" not in data:
             user_name = str(uuid.uuid4())
         else:
-            user_name = data["preferred_username"]
+            user_name = "tuw_" + data["preferred_username"]
         return User(
             user_name,
-            groups=dask_roles["stack-dask-high"],
+            groups=["stack-dask-tuw"],
             admin=False,
         )
 
     raise unauthorized("Not authorized for Dask Gateway")
+
+
+import uuid
+from dask_gateway_server.backends.kubernetes import KubeBackend
+
+
+class ExtendedKubeBackend(KubeBackend):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.log.info("[ExtendedKubeBackend] Initialized custom backend")
+
+    async def start_cluster(self, user, cluster_options):
+        options, config = await self.process_cluster_options(user, cluster_options)
+
+        labels = {
+            "eodc.dask/username": user.name,
+            "eodc.dask/group": list(user.groups)[0],
+        }
+        config.scheduler_extra_pod_labels = labels
+        config.worker_extra_pod_labels = labels
+
+        obj = self.make_cluster_object(user.name, options, config)
+        name = obj["metadata"]["name"]
+        cluster_name = f"{config.namespace}.{name}"
+
+        self.log.info(
+            "[ExtendedKubeBackend] Creating labelled cluster %s for user %s",
+            cluster_name,
+            user.name,
+        )
+
+        await self.custom_client.create_namespaced_custom_object(
+            "gateway.dask.org", self.crd_version, config.namespace, "daskclusters", obj
+        )
+        return cluster_name
