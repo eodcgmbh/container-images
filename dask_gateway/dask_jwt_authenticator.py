@@ -109,7 +109,7 @@ class JwtAuthenticator(Authenticator, LoggingConfigurable):
                 self.log.info(f"User {user_name} access granted with role {user_dask_role[0]}.")
                 return User(
                     user_name,
-                    groups=[user_dask_role[0]],
+                    groups=list(roles),
                     admin=False,
                 )
         else:
