@@ -1,0 +1,38 @@
+name: base
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - "bokeh>=2.4.2,<3"
+  - dask-gateway=2023.1.1
+  - cloudpickle=2.2.1
+  - s3fs=2023.6.0
+  - fsspec=2023.6.0
+  - xarray=2024.11.0
+  - dask=2023.8.0
+  - distributed=2023.8.0
+  - lz4=4.3.2
+  - tornado=6.3.2
+  - rioxarray
+  - python=3.11.4
+  - datacube
+  - cf-units
+  - zarr
+  - pip
+  - geopandas
+  - pyresample
+  - eccodes=2.35.0
+  - python-eccodes
+  - earthkit-data
+  - rioxarray
+  - pip:
+      - pystac_client
+      - rich
+      - odc-stac
+      - eodag==3.8.1
+      - eodag-cube==0.6.0
+      - dedl-stack-client==2025.5.1
+      - destinelab==1.13
+      - polytope-python
+      - earthkit-meteo
+      - earthkit-regrid
