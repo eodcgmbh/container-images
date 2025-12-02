@@ -40,5 +40,5 @@ jobs:
         with:
           context: ./dask_gateway
           push: true
-          tags: ghcr.io/${{ github.repository }}/dask-gateway-server-jwt:latest
+          tags: ghcr.io/${{ github.repository }}/dask-gateway-server-jwt-scheduler-metrics:latest
           file: dask_gateway/dask-gateway-jwt.dockerfile
