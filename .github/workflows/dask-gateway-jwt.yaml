@@ -1,6 +1,7 @@
 name: Build and Push Dask Gateway Server
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
