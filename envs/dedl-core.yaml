@@ -25,6 +25,7 @@ dependencies:
   - python-eccodes
   - earthkit-data
   - rioxarray
+  - prometheus-client==0.23.1
   - pip:
       - pystac_client
       - rich
