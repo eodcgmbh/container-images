@@ -3,7 +3,7 @@ name: Build and Push Dask Gateway Server
 on:
   push:
     branches:
-      - main
+      - scheduler-metrics
     paths:
       - dask_gateway/**
 
