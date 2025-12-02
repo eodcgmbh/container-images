@@ -6,6 +6,7 @@ on:
       - scheduler-metrics
     paths:
       - dask_gateway/**
+  workflow_dispatch:
 
 jobs:
   build-and-push:
