@@ -1,4 +1,4 @@
-name: Build and Push Dask Gateway Server
+name: Build and Push Dask Gateway Server with JWT support
 
 on:
   workflow_dispatch:
