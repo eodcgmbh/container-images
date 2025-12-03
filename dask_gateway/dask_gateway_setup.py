@@ -49,9 +49,7 @@ class JWTAuthenticator(Authenticator, LoggingConfigurable):
 
     @default("jwks_urls")
     def _default_jwks_urls(self):
-        config_string = os.getenv("JWKS_URL", "")
-
-        config: dict = json.loads(base64.decode(config_string))
+        config: dict = json.loads(base64.decode(os.getenv("JWKS_URL", "")))
         jwks_urls = {}
 
         for auth_extra, jwks_url in config.items():

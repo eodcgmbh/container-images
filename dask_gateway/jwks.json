@@ -1,4 +1,4 @@
 {
-    "eodc" : "https://identity.data.destination-earth.eu/auth/realms/dedl/protocol/openid-connect/certs",
+    "eodc" : "https://bouncer.eodc.eu/auth/realms/EODC/protocol/openid-connect/certs",
     "tuw" : "https://login.datalab.tuwien.ac.at/application/o/jaas/jwks/"
 }
