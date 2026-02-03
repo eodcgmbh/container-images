@@ -136,7 +136,9 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
                 if group.startswith(EODC_SERVICES_DASK_GROUP_PATH)
             ]
         )
-        user_dask_role = sorted(dask_groups.intersection(dask_roles))
+
+        authenticator.log.info(f"Relevant dask groups: {dask_groups}")
+        user_dask_role = dask_groups
 
         if len(user_dask_role) == 0:
             authenticator.log.info("No groups found.")
