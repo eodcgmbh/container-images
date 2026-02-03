@@ -1,4 +1,4 @@
-name: Build and Push Dask Gateway Server
+name: Build and Push Dask Gateway Server with JWT support
 
 on:
   workflow_dispatch:
@@ -37,5 +37,5 @@ jobs:
         with:
           context: ./dask_gateway
           push: true
-          tags: ghcr.io/eodcgmbh/container-images/dask-gateway-server-jwt:2026.2.1
+          tags: ghcr.io/eodcgmbh/container-images/dask-gateway-server:latest
           file: dask_gateway/dask-gateway-jwt.dockerfile
