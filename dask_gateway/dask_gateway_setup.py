@@ -11,20 +11,22 @@ from traitlets.config import LoggingConfigurable
 
 from dask_gateway_server.auth import Authenticator, unauthorized, User
 
+EODC_SERVICES_DASK_GROUP_PATH = "/services/dask/"
+
 dask_roles = {
-    "stack-dask-high": {
+    "dask-high": {
         "worker_cores": 12,
         "worker_memory": 24,
     },
-    "stack-dask-medium": {
+    "dask-medium": {
         "worker_cores": 4,
         "worker_memory": 8,
     },
-    "stack-dask-low": {
+    "dask-small": {
         "worker_cores": 1,
         "worker_memory": 2,
     },
-    "stack-dask-tuw": {
+    "dask-tuw": {
         "worker_cores": 2,
         "worker_memory": 2,
         "worker_cores_limit": 2,
@@ -100,9 +102,9 @@ class JWTAuthenticator(Authenticator, LoggingConfigurable):
 
         self.log.info(f"Authenticating with auth_extra '{auth_extra}'")
         if auth_extra == "eodc":
-            return await eodc_validate_token(token, self._jwks_client)
+            return await eodc_validate_token(token, self._jwks_client, self)
         elif auth_extra == "tuw":
-            return await tuw_validate_token(token, self._jwks_client)
+            return await tuw_validate_token(token, self._jwks_client, self)
 
         raise unauthorized("jwt")
 
@@ -117,19 +119,29 @@ async def pre_validation(token, jwks_client: jwt.PyJWKClient):
     return data
 
 
-async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient):
+async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator):
     data = await pre_validation(token, jwks_client)
 
-    if data and ("realm_access" in data) and ("roles" in data["realm_access"]):
+    if data and ("groups" in data):
         if "preferred_username" not in data:
             user_name = str(uuid.uuid4())
         else:
             user_name = data["preferred_username"]
-        roles = set(data["realm_access"]["roles"])
-        user_dask_role = sorted(roles.intersection(dask_roles))
+        dask_groups = set(
+            [
+                group.lstrip(EODC_SERVICES_DASK_GROUP_PATH)
+                for group in data["groups"]
+                if group.startswith(EODC_SERVICES_DASK_GROUP_PATH)
+            ]
+        )
+        user_dask_role = sorted(dask_groups.intersection(dask_roles))
+
         if len(user_dask_role) == 0:
             raise unauthorized("jwt")
         else:
+            authenticator.log.info(
+                f"Authenticated User: {user_name}, for group: {user_dask_role[0]}."
+            )
             return User(
                 user_name,
                 groups=[user_dask_role[0]],
@@ -139,7 +151,7 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient):
     raise unauthorized("Not authorized for Dask Gateway")
 
 
-async def tuw_validate_token(token, jwks_client: jwt.PyJWKClient):
+async def tuw_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator):
     data = await pre_validation(token, jwks_client)
 
     if ("eodc_access" in data) and (data["eodc_access"]):
@@ -147,6 +159,9 @@ async def tuw_validate_token(token, jwks_client: jwt.PyJWKClient):
             user_name = str(uuid.uuid4())
         else:
             user_name = "tuw_" + data["preferred_username"]
+        authenticator.log.info(
+            f"Authenticated User: {user_name}, for group: stack-dask-tuw."
+        )
         return User(
             user_name,
             groups=["stack-dask-tuw"],
