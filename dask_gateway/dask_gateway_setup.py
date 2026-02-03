@@ -14,7 +14,7 @@ from dask_gateway_server.auth import Authenticator, unauthorized, User
 EODC_SERVICES_DASK_GROUP_PATH = "/services/dask/"
 
 dask_roles = {
-    "dask-high": {
+    "dask-large": {
         "worker_cores": 12,
         "worker_memory": 24,
     },
@@ -127,6 +127,8 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
             user_name = str(uuid.uuid4())
         else:
             user_name = data["preferred_username"]
+
+        authenticator.log.info(f"Groups: {data["groups"]}")
         dask_groups = set(
             [
                 group.lstrip(EODC_SERVICES_DASK_GROUP_PATH)
@@ -137,6 +139,7 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
         user_dask_role = sorted(dask_groups.intersection(dask_roles))
 
         if len(user_dask_role) == 0:
+            authenticator.log.info("No groups found.")
             raise unauthorized("jwt")
         else:
             authenticator.log.info(
@@ -147,7 +150,7 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
                 groups=[user_dask_role[0]],
                 admin=False,
             )
-
+    authenticator.log.info("KeyError: 'groups' not in token")
     raise unauthorized("Not authorized for Dask Gateway")
 
 
