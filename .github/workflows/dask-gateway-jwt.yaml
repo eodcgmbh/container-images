@@ -37,5 +37,5 @@ jobs:
         with:
           context: ./dask_gateway
           push: true
-          tags: ghcr.io/eodcgmbh/container-images/dask-gateway-server-jwt:2025.12.1
+          tags: ghcr.io/eodcgmbh/container-images/dask-gateway-server-jwt:2026.2.1
           file: dask_gateway/dask-gateway-jwt.dockerfile
