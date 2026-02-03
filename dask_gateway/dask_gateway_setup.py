@@ -129,13 +129,13 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
             user_name = data["preferred_username"]
 
         authenticator.log.info(f"Groups: {data["groups"]}")
-        dask_groups = set(
+        dask_groups = list(set(
             [
-                group.lstrip(EODC_SERVICES_DASK_GROUP_PATH)
+                group.replace(EODC_SERVICES_DASK_GROUP_PATH, '')
                 for group in data["groups"]
                 if group.startswith(EODC_SERVICES_DASK_GROUP_PATH)
             ]
-        )
+        ))
 
         authenticator.log.info(f"Relevant dask groups: {dask_groups}")
         user_dask_role = dask_groups
