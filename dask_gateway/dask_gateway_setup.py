@@ -1,4 +1,5 @@
 import base64
+import re
 import uuid
 import jwt
 import aiohttp
@@ -126,7 +127,7 @@ async def eodc_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator
         if "preferred_username" not in data:
             user_name = str(uuid.uuid4())
         else:
-            user_name = data["preferred_username"]
+            user_name = re.sub(r'[^a-zA-Z0-9-]+', '_', data["preferred_username"])
 
         authenticator.log.info(f"Groups: {data["groups"]}")
         dask_groups = list(set(
@@ -163,10 +164,12 @@ async def tuw_validate_token(token, jwks_client: jwt.PyJWKClient, authenticator)
         if "preferred_username" not in data:
             user_name = str(uuid.uuid4())
         else:
-            user_name = "tuw_" + data["preferred_username"]
+            user_name = "tuw_" + re.sub(r'[^a-zA-Z0-9-]+', '_', data["preferred_username"])
         authenticator.log.info(
             f"Authenticated User: {user_name}, for group: stack-dask-tuw."
         )
+
+        user_name = re.sub(r'[^a-zA-Z0-9-]+', '-', user_name)
         return User(
             user_name,
             groups=["stack-dask-tuw"],
