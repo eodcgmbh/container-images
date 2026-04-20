@@ -35,9 +35,10 @@ RUN pip install --no-cache-dir --upgrade \
   dask-labextension \
   #jupyterlab-s3-browser \
   nbgitpuller \
+  xarray>=2024.10.0 \
   psycopg2-binary \
   odc-stac==0.3.9 \
-  zarr \
+  zarr>=3.0.0 \
   eodc
 
 RUN jupyter lab build --minimize=False -y
