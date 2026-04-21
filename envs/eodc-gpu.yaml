@@ -1,0 +1,67 @@
+name: base
+channels:
+  - rapidsai
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.12
+  - cuda-version=12.8
+
+  # --- JupyterLab + JupyterHub single-user server ---
+  - jupyterlab>=4.0
+  - jupyterhub>=4.0        # provides jupyterhub-singleuser, required by JupyterHub
+  - notebook               # classic notebook server, needed by jupyterhub-singleuser
+  - ipywidgets
+  - nbgitpuller
+  - jupyter-fs
+  - dask-labextension
+
+  # --- RAPIDS ecosystem ---
+  # cuDF: GPU DataFrames (pandas-compatible)
+  - cudf>=25.02
+  # cuML: GPU-accelerated ML algorithms
+  - cuml>=25.02
+  # cuGraph: GPU graph analytics
+  - cugraph>=25.02
+  # cuSpatial: GPU geospatial analytics
+  - cuspatial>=25.02
+  # CuPy: NumPy-compatible GPU array library
+  - cupy
+  # dask-cuda: Dask integration for multi-GPU workflows
+  - dask-cuda>=25.02
+
+  # --- Dask ecosystem ---
+  - dask>=2024.1.0
+  - distributed>=2024.1.0
+  - dask-ml
+  - lz4
+  - tornado>=6.4
+
+  # --- ML / Classical ---
+  # XGBoost with GPU support (tree_method='hist', device='cuda')
+  - xgboost>=2.1
+  - scikit-learn>=1.4
+  - lightgbm
+
+  # --- Data science stack ---
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - statsmodels
+  - dash                   # prebuilt labextension via conda-forge, no rebuild needed
+
+  # --- Geospatial / EO ---
+  - xarray
+  - zarr
+  - rioxarray
+  - geopandas
+
+  # --- Utilities ---
+  - nodejs                 # required for jupyter lab build
+  - pip
+  - pip:
+      - rich
+      - eodc
