@@ -39,7 +39,7 @@ RUN pip install --no-cache-dir --upgrade \
   psycopg2-binary \
   odc-stac==0.3.9 \
   zarr>=3.0.0 \
-  eodc
+  eodc-connect
 
 RUN jupyter lab build --minimize=False -y
 
