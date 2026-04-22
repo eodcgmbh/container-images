@@ -38,8 +38,7 @@ RUN pip install --no-cache-dir --upgrade \
   xarray>=2024.10.0 \
   psycopg2-binary \
   odc-stac==0.3.9 \
-  zarr>=3.0.0 \
-  eodc
+  zarr>=3.0.0
 
 RUN jupyter lab build --minimize=False -y
 
