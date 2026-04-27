@@ -1,0 +1,77 @@
+name: base
+channels:
+  - rapidsai
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.12
+  - cuda-version=12.8
+
+  # --- RAPIDS metapackage ---
+  - rapids=25.04
+  - dask-cuda=25.04
+
+  # --- JupyterLab + JupyterHub ---
+  - jupyterlab>=4.0
+  - jupyterhub>=4.0
+  - notebook
+  - ipywidgets
+  - nbgitpuller
+  - jupyter-fs
+  - dask-labextension
+  - tensorboard            # TF + PyTorch training visualisation inside JupyterLab
+
+  # --- Dask ecosystem ---
+  - dask>=2024.1.0
+  - distributed>=2024.1.0
+  - dask-ml
+  - lz4
+  - tornado>=6.4
+
+  # --- ML / Classical ---
+  - xgboost>=2.1
+  - scikit-learn>=1.4
+  - lightgbm
+
+  # --- HuggingFace (via conda-forge avoids pyarrow build conflicts) ---
+  - transformers
+  - datasets
+  - accelerate
+  - tokenizers
+
+  # --- MLOps ---
+  - mlflow
+
+  # --- Data science stack ---
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - statsmodels
+  - dash
+
+  # --- Geospatial / EO ---
+  - xarray
+  - zarr
+  - rioxarray
+  - geopandas>=1.0
+  - gdal                   # pin via conda to avoid pip version mismatch
+  - cartopy
+  - pyproj
+  - shapely
+
+  # --- NWP / ECMWF data formats ---
+  - eccodes
+  - cfgrib
+
+  # --- Visualisation ---
+  - hvplot
+  - panel
+  - holoviews
+  - bokeh
+
+  # --- Utilities ---
+  - nodejs                 # required for jupyter lab build
+  - setuptools             # ensures pip can build source packages if needed
+  - pip
