@@ -92,7 +92,6 @@ RUN pip install --no-cache-dir \
 # building from source.
 RUN pip install --no-cache-dir \
     rich \
-    eodc \
     earthkit-data
 
 # ── Compile source-only JupyterLab extensions ────────────────────────────────

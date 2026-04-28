@@ -60,6 +60,8 @@ dependencies:
   - cartopy
   - pyproj
   - shapely
+  - netCDF4
+  - fsspec
 
   # --- NWP / ECMWF data formats ---
   - eccodes
