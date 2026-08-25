@@ -4,5 +4,5 @@
     "jpserver_extensions": {
       "jupyterfs.extension": true
     }
-  },
+  }
 }
