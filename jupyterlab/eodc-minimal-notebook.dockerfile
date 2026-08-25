@@ -36,7 +36,7 @@ RUN pip install --no-cache-dir --upgrade \
   #jupyterlab-s3-browser \
   nbgitpuller \
   xarray>=2024.10.0 \
-  jupyterhub=5.4.1\
+  jupyterhub==5.4.1\
   psycopg2-binary \
   odc-stac==0.3.9 \
   zarr>=3.0.0 \
