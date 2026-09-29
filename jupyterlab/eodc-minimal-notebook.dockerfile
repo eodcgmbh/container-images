@@ -28,6 +28,12 @@ RUN apt-get update --yes && \
   s3cmd && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
+ARG CODE_SERVER_VERSION=4.139.1
+RUN curl -fsSL -o /tmp/code-server.deb \
+  "https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb" && \
+  dpkg -i /tmp/code-server.deb && \
+  rm /tmp/code-server.deb
+
 RUN pip install --no-cache-dir --upgrade \
   # fix to make git labextension working for authentication
   pexpect==4.9.0 \
@@ -40,7 +46,8 @@ RUN pip install --no-cache-dir --upgrade \
   psycopg2-binary \
   odc-stac==0.3.9 \
   zarr>=3.0.0 \
-  eodc-connect
+  eodc-connect \
+  jupyter-vscode-proxy==0.7
 
 RUN jupyter lab build --minimize=False -y
 
