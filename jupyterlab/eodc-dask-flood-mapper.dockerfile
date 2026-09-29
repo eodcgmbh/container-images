@@ -49,8 +49,6 @@ RUN mamba install -y -n base -c conda-forge \
       rich \
       'eodc-connect==0.0.4'
 
-# Server config and permissions
-COPY jupyterlab/jupyter_server_config.json /etc/jupyter/jupyter_server_config.json
 RUN fix-permissions "${CONDA_DIR}" \
  && fix-permissions "/home/${NB_USER}"
 
