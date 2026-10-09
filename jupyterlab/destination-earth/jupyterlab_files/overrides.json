@@ -1,0 +1,198 @@
+{
+  "@jupyterlab/shortcuts-extension:shortcuts": {
+    "shortcuts": [
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 0"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 1"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 2"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 3"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 4"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 5"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 6"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 7"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 8"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt 9"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 0"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 1"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 2"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 3"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 4"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 5"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 6"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 7"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 8"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "application:toggle-sidebar-widget",
+        "keys": [
+          "Alt Shift 9"
+        ],
+        "selector": "body",
+        "disabled": true
+      },
+      {
+        "command": "documentsearch:toggleSearchInSelection",
+        "keys": [
+          "Alt L"
+        ],
+        "selector": ".jp-mod-search-active",
+        "disabled": true
+      },
+      {
+        "command": "inline-completer:invoke",
+        "keys": [
+          "Alt \\"
+        ],
+        "selector": ".jp-mod-completer-enabled",
+        "disabled": true
+      },
+      {
+        "command": "inline-completer:next",
+        "keys": [
+          "Alt ]"
+        ],
+        "selector": ".jp-mod-completer-enabled",
+        "disabled": true
+      },
+      {
+        "command": "inline-completer:previous",
+        "keys": [
+          "Alt ["
+        ],
+        "selector": ".jp-mod-completer-enabled",
+        "disabled": true
+      }
+    ]
+  }
+}
