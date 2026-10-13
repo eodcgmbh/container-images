@@ -31,9 +31,18 @@ Actions → **Build and publish JupyterHub hub image** → **Run workflow**. Lea
 `ref` empty to build `SOURCE_REF`, or enter another branch, tag or commit of
 the fork.
 
-Each build is pushed to both registries with two tags:
+Each build is pushed to both registries with these tags:
 
-- `sha-<short commit>`: the fork commit that was built. Pin deployments to this tag.
+- `sha-<short commit>`: the fork commit that was built.
 - `<ref>`: the branch or tag name (e.g. `main-prod`). This tag moves with every build.
+
+Builds of the default `SOURCE_REF` are releases and also get:
+
+- `<year>.<month>.<n>` (e.g. `2026.10.2`): CalVer release tag. `n` is one
+  higher than the highest tag for the current month (Vienna time) in Harbor,
+  and starts again at `1` each month. Pin deployments to this tag.
+- `latest`: the newest release.
+
+Builds of any other `ref` get no release tags and don't move `latest`.
 
 Builds don't start automatically when the fork changes. Start them by hand.

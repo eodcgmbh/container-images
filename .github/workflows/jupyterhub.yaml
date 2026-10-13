@@ -8,6 +8,11 @@ on:
         required: false
         default: ""
 
+concurrency:
+  # parallel runs would read the same last tag and push the same version
+  group: jupyterhub-release
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,23 +40,6 @@ jobs:
           # setuptools-scm derives the package version from git history
           fetch-depth: "0"
 
-      - name: Compute image tags
-        id: tags
-        working-directory: jupyterhub-src
-        run: |
-          sha=$(git rev-parse --short=7 HEAD)
-          ref=$(echo "$REF" | tr -c 'A-Za-z0-9_.\n-' '-')
-          # GHCR rejects uppercase in image paths
-          ghcr_image="ghcr.io/${GITHUB_REPOSITORY,,}/${GHCR_IMAGE_NAME}"
-          {
-            echo "tags<<EOF"
-            for image in "${REGISTRY}/${IMAGE_NAME}" "$ghcr_image"; do
-              echo "${image}:sha-${sha}"
-              echo "${image}:${ref}"
-            done
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -68,6 +56,39 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute image tags
+        id: tags
+        working-directory: jupyterhub-src
+        run: |
+          sha=$(git rev-parse --short=7 HEAD)
+          ref=$(echo "$REF" | tr -c 'A-Za-z0-9_.\n-' '-')
+          # GHCR rejects uppercase in image paths
+          ghcr_image="ghcr.io/${GITHUB_REPOSITORY,,}/${GHCR_IMAGE_NAME}"
+
+          if [ "$REF" = "$SOURCE_REF" ]; then
+            # Harbor is the source of truth for the counter; a failed lookup
+            # must abort, otherwise the month restarts at .1 and overwrites
+            prefix="$(TZ=Europe/Vienna date +%Y.%-m)."
+            existing=$(skopeo list-tags "docker://${REGISTRY}/${IMAGE_NAME}")
+            last=$(echo "$existing" \
+              | jq -r --arg p "$prefix" '.Tags[]? | select(startswith($p)) | ltrimstr($p) | select(test("^[0-9]+$"))' \
+              | sort -n | tail -n1)
+            version="${prefix}$(( ${last:-0} + 1 ))"
+          fi
+
+          {
+            echo "tags<<EOF"
+            for image in "${REGISTRY}/${IMAGE_NAME}" "$ghcr_image"; do
+              echo "${image}:sha-${sha}"
+              echo "${image}:${ref}"
+              if [ -n "${version:-}" ]; then
+                echo "${image}:${version}"
+                echo "${image}:latest"
+              fi
+            done
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Build and push
         uses: docker/build-push-action@v6
