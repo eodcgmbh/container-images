@@ -1,0 +1,4 @@
+envs_dirs:
+  - /home/jovyan/.conda/envs
+pkgs_dirs:
+  - /home/jovyan/.conda/pkgs
